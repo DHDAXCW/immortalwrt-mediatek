@@ -16,3 +16,6 @@ https://github.com/immortalwrt/immortalwrt
 - [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)
 [Read the details in my blog (in Chinese) | 中文教程](https://p3terx.com/archives/build-openwrt-with-github-actions.html)
 - [kenzok8/openwrt_Build](https://github.com/kenzok8/openwrt_Build)
+
+## 许可
+本项目采用 GNU 通用公共许可 v3.0 (GPLv3) 发布，详情请见 [LICENSE](LICENSE) 文件。
