@@ -14,8 +14,6 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-  OPENWRT_NAME: immortalwrt
-  OPENWRT_NAME1: mediatek
 
 jobs:
   build:
@@ -43,18 +41,31 @@ jobs:
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean ) &
         sudo timedatectl set-timezone "$TZ"
+
+    - name: Initialization Environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        echo -e "Total CPU cores\t: $(nproc)"
+        cat /proc/cpuinfo | grep 'model name'
+        free -h
+        uname -a
+        [ -f /proc/version ] && cat /proc/version
+        [ -f /etc/issue.net ] && cat /etc/issue.net
+        [ -f /etc/issue ] && cat /etc/issue
+        ulimit -a
         
-    - name: 下载固件源码
+    - name: Clone Source Code
       run: |
         git clone $REPO_URL -b $REPO_BRANCH openwrt
          
-    - name: 加载feeds.conf.default & DIY_P1_SH
+    - name: Load Custom Configuration
       run: |
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
         
-    - name: 更新 & 安装 feeds
+    - name: Update Feeds
       working-directory: ./openwrt
       run: |
         ./scripts/feeds update -a
@@ -67,7 +78,7 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
-    - name: 下载安装包
+    - name: Download Package
       id: package
       run: |
         cd openwrt
@@ -110,28 +121,28 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-          name: ${{ steps.tag.outputs.release_date }} openwrt-rockchip-armv8-docker 下载固件
+          name: ${{ steps.tag.outputs.release_date }} openwrt 下载固件
           tag_name: ${{ steps.tag.outputs.release_tag }}
           body_path: release.txt
           files: ${{ env.FIRMWARE }}/*
 
-    - name: 生成release标签
-      id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      run: |
-        echo "::set-output name=release_tag::${{ env.date2 }}"
-        touch release.txt
-        echo "📥 固件下载" >> release.txt
-        echo "status=success" >> $GITHUB_OUTPUT
-        
-    - name: 发布至release
-      uses: softprops/action-gh-release@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@v2
       with:
-        files: ${{ env.FIRMWARE }}/*
-        name: ${{ env.date3 }}
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
+          retain_days: 1
+          keep_minimum_runs: 1
 
+    - name: Remove old Releases
+      uses: dev-drprasad/delete-older-releases@v0.3.3
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+          keep_latest: 20
+          delete_tags: true
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Delete Artifacts
+      uses: geekyeggo/delete-artifact@v4
+      with:
+         name: |
+            bin-archive
