@@ -65,7 +65,7 @@ jobs:
       run: |
         chmod +x $OPENWRT_NAME
         cd openwrt
-        "$GITHUB_WORKSPACE/$DIY_P1_SH"
+        $GITHUB_WORKSPACE/$DIY_P1_SH
         
     - name: Update & install feeds
       working-directory: ./openwrt
@@ -77,8 +77,8 @@ jobs:
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $OPENWRT_NAME/*.sh && cd openwrt
-        "$GITHUB_WORKSPACE/$DIY_P2_SH"
-        "$GITHUB_WORKSPACE/$OPENWRT_NAME/preset-clash-core.sh" arm64
+        $GITHUB_WORKSPACE/$DIY_P2_SH
+        $GITHUB_WORKSPACE/$OPENWRT_NAME/preset-clash-core.sh arm64
 
     - name: Download the installation package
       id: package
@@ -113,8 +113,8 @@ jobs:
       run: |
         mkdir -p firmware
         find openwrt/bin/targets/*/*/ -maxdepth 1 \
-          \( -name "*.itb" -o -name "*.img.gz" -o -name "*.bin" \) \
-          -exec mv -f {} ./firmware/ \;
+        \( -name "*.itb" -o -name "*.img.gz" -o -name "*.bin" \) \
+        -exec mv -f {} ./firmware/ \;
         cp openwrt/.config ./firmware/${{ env.date1 }}_${{ env.OPENWRT_NAME }}.config
         cd firmware
         rename "s/^/${{ env.date1 }}_/" *.itb *.img.gz *.bin
