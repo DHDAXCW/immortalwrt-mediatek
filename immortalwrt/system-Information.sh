@@ -51,13 +51,13 @@ else
   ip -br addr show | awk '{print "接口: " $1 "\t状态: " $2 "\tIP: " $3}'
 fi
 
-echo -e "\n=== 网络速度测试 ==="
-if command -v speedtest-cli >/dev/null 2>&1; then
-  echo "正在测试网络速度，请稍候..."
-  speedtest-cli --simple
-else
-  echo "未找到 speedtest-cli，请确保已安装。"
-fi
+#echo -e "\n=== 网络速度测试 ==="
+#if command -v speedtest-cli >/dev/null 2>&1; then
+#  echo "正在测试网络速度，请稍候..."
+#  speedtest-cli --simple
+#else
+#  echo "未找到 speedtest-cli，请确保已安装。"
+#fi
 
 # 其他系统详情
 echo -e "\n=== Additional System Details ==="
