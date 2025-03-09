@@ -60,8 +60,12 @@ jobs:
           echo "架构类型\t: $(lscpu | grep 'Architecture' | cut -d':' -f2 | sed 's/^\s*//')"
           echo "每插槽核心数\t: $(lscpu | grep 'Core(s) per socket' | cut -d':' -f2 | sed 's/^\s*//')"
           echo "每核心线程数\t: $(lscpu | grep 'Thread(s) per core' | cut -d':' -f2 | sed 's/^\s*//')"
-          echo "最大频率\t: $(lscpu | grep 'CPU max MHz' | cut -d':' -f2 | sed 's/^\s*//') MHz"
-          echo "最小频率\t: $(lscpu | grep 'CPU min MHz' | cut -d':' -f2 | sed 's/^\s*//') MHz"
+      
+          # 改进最大频率和最小频率的提取
+          MAX_FREQ=$(lscpu | grep -E 'CPU max MHz|CPU MHz max' | cut -d':' -f2 | sed 's/^\s*//')
+          MIN_FREQ=$(lscpu | grep -E 'CPU min MHz|CPU MHz min' | cut -d':' -f2 | sed 's/^\s*//')
+          echo "最大频率\t: ${MAX_FREQ:-未知} MHz"
+          echo "最小频率\t: ${MIN_FREQ:-未知} MHz"
         else
           echo "CPU 信息不可用（/proc/cpuinfo 文件缺失）"
         fi
