@@ -51,12 +51,20 @@ else
   ip -br addr show | awk '{print "接口: " $1 "\t状态: " $2 "\tIP: " $3}'
 fi
 
-# 网速测试
-echo -e "\n=== Network Speed Test ==="
-if command -v curl >/dev/null 2>&1; then
-  curl -s -o /dev/null -w "Download speed: %{speed_download} bytes/sec\n" http://speedtest.ookla.com/100mb.bin
+echo -e "\n=== 网络速度测试 ==="
+if command -v speedtest-cli >/dev/null 2>&1; then
+  echo "正在测试网络速度，请稍候..."
+  speedtest-cli --simple
 else
-  echo "curl 未安装，跳过网速测试"
+  echo "speedtest-cli 未安装。正在安装..."
+  # 安装 speedtest-cli
+  if sudo apt-get update && sudo apt-get install -y speedtest-cli; then
+    echo "speedtest-cli 安装成功。正在测试网络速度，请稍候..."
+    speedtest-cli --simple
+  else
+    echo "无法安装 speedtest-cli。请手动安装："
+    echo "  sudo apt-get install speedtest-cli"
+  fi
 fi
 
 # 其他系统详情
