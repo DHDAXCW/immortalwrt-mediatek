@@ -63,9 +63,9 @@ jobs:
          
     - name: Load feeds.conf.default
       run: |
-        chmod +x $DIY_P1_SH
+        chmod +x $OPENWRT_NAME
         cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+        "$GITHUB_WORKSPACE/$DIY_P1_SH"
         
     - name: Update & install feeds
       working-directory: ./openwrt
@@ -76,9 +76,9 @@ jobs:
     - name: Load config
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_P2_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P2_SH
+        chmod +x $OPENWRT_NAME/*.sh && cd openwrt
+        "$GITHUB_WORKSPACE/$DIY_P2_SH"
+        "$GITHUB_WORKSPACE/$OPENWRT_NAME/preset-clash-core.sh" arm64
 
     - name: Download the installation package
       id: package
