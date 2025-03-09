@@ -51,21 +51,21 @@ jobs:
         echo "=== 系统信息 ==="
         # CPU 信息（中文）
         echo -e "\n=== CPU 信息 ==="
-        echo -e "CPU 总核心数\t: $(nproc)"
+        echo -e "CPU 总核心数: $(nproc)"
         echo "CPU 详细信息:"
         if [ -f /proc/cpuinfo ]; then
-          echo "型号名称\t: $(grep 'model name' /proc/cpuinfo | head -n1 | cut -d':' -f2 | sed 's/^\s*//')"
-          echo "当前频率\t: $(grep 'cpu MHz' /proc/cpuinfo | head -n1 | cut -d':' -f2 | sed 's/^\s*//') MHz"
-          echo "缓存大小\t: $(grep 'cache size' /proc/cpuinfo | head -n1 | cut -d':' -f2 | sed 's/^\s*//')"
-          echo "架构类型\t: $(lscpu | grep 'Architecture' | cut -d':' -f2 | sed 's/^\s*//')"
-          echo "每插槽核心数\t: $(lscpu | grep 'Core(s) per socket' | cut -d':' -f2 | sed 's/^\s*//')"
-          echo "每核心线程数\t: $(lscpu | grep 'Thread(s) per core' | cut -d':' -f2 | sed 's/^\s*//')"
+          echo "型号名称: $(grep 'model name' /proc/cpuinfo | head -n1 | cut -d':' -f2 | sed 's/^\s*//')"
+          echo "当前频率: $(grep 'cpu MHz' /proc/cpuinfo | head -n1 | cut -d':' -f2 | sed 's/^\s*//') MHz"
+          echo "缓存大小: $(grep 'cache size' /proc/cpuinfo | head -n1 | cut -d':' -f2 | sed 's/^\s*//')"
+          echo "架构类型: $(lscpu | grep 'Architecture' | cut -d':' -f2 | sed 's/^\s*//')"
+          echo "每插槽核心数: $(lscpu | grep 'Core(s) per socket' | cut -d':' -f2 | sed 's/^\s*//')"
+          echo "每核心线程数: $(lscpu | grep 'Thread(s) per core' | cut -d':' -f2 | sed 's/^\s*//')"
       
-          # 改进最大频率和最小频率的提取
+          # 最大频率和最小频率
           MAX_FREQ=$(lscpu | grep -E 'CPU max MHz|CPU MHz max' | cut -d':' -f2 | sed 's/^\s*//')
           MIN_FREQ=$(lscpu | grep -E 'CPU min MHz|CPU MHz min' | cut -d':' -f2 | sed 's/^\s*//')
-          echo "最大频率\t: ${MAX_FREQ:-未知} MHz"
-          echo "最小频率\t: ${MIN_FREQ:-未知} MHz"
+          echo "最大频率: ${MAX_FREQ:-未知} MHz"
+          echo "最小频率: ${MIN_FREQ:-未知} MHz"
         else
           echo "CPU 信息不可用（/proc/cpuinfo 文件缺失）"
         fi
