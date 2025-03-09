@@ -44,18 +44,44 @@ jobs:
         sudo -E apt-get -qq clean ) &
         sudo timedatectl set-timezone "$TZ"
         
-    - name: Initialization Environment
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        echo -e "Total CPU cores\t: $(nproc)"
-        cat /proc/cpuinfo | grep 'model name'
-        free -h
-        uname -a
-        [ -f /proc/version ] && cat /proc/version
-        [ -f /etc/issue.net ] && cat /etc/issue.net
-        [ -f /etc/issue ] && cat /etc/issue
-        ulimit -a
+- name: Initialize Environment and Display System Info
+  env:
+    DEBIAN_FRONTEND: noninteractive
+  run: |
+    echo "=== System Information ==="
+    # CPU Information
+    echo -e "Total CPU cores\t: $(nproc)"
+    echo "CPU Details:"
+    grep -E 'model name|cpu MHz|cache size' /proc/cpuinfo | sort -u
+
+    # Memory Information
+    echo -e "\n=== Memory Information ==="
+    free -h | awk '/^Mem:/ {print "Total Memory\t: " $2 "\nUsed Memory\t: " $3 "\nFree Memory\t: " $4}'
+
+    # Disk Information
+    echo -e "\n=== Disk Information ==="
+    df -h | grep -E '^/dev/' | awk '{print "Device: " $1 "\tSize: " $2 "\tUsed: " $3 "\tAvail: " $4 "\tMount: " $6}'
+
+    # Network Interface Information
+    echo -e "\n=== Network Interface Information ==="
+    ip -br addr show | awk '{print "Interface: " $1 "\tStatus: " $2 "\tIP: " $3}'
+
+    # Network Speed Test (requires 'curl' and a test file)
+    echo -e "\n=== Network Speed Test ==="
+    if command -v curl >/dev/null 2>&1; then
+      curl -s -o /dev/null -w "Download speed: %{speed_download} bytes/sec\n" http://speedtest.ookla.com/100mb.bin
+    else
+      echo "curl not installed, skipping network speed test"
+    fi
+
+    # Additional System Details
+    echo -e "\n=== Additional System Details ==="
+    uname -a
+    [ -f /proc/version ] && echo "Version:" && cat /proc/version
+    [ -f /etc/issue.net ] && echo "Issue (net):" && cat /etc/issue.net
+    [ -f /etc/issue ] && echo "Issue:" && cat /etc/issue
+    echo -e "\nResource Limits:"
+    ulimit -a
         
     - name: Download firmware source code
       run: |
