@@ -52,19 +52,17 @@ else
 fi
 
 echo -e "\n=== 网络速度测试 ==="
-if command -v speedtest-cli >/dev/null 2>&1; then
-  echo "正在测试网络速度，请稍候..."
-  speedtest-cli --simple
+if command -v curl >/dev/null 2>&1; then
+  echo "正在使用 curl 测试下载速度，请稍候..."
+  curl -s -o /dev/null -w "下载速度: %{speed_download} 字节/秒\n" http://speedtest.ookla.com/100mb.bin
+elif command -v wget >/dev/null 2>&1; then
+  echo "正在使用 wget 测试下载速度，请稍候..."
+  start_time=$(date +%s)
+  wget -O /dev/null http://speedtest.ookla.com/100mb.bin 2>&1 | grep --line-buffered -oP '\d+\.\d+ [KM]B/s'
+  end_time=$(date +%s)
+  echo "下载测试完成，耗时 $((end_time - start_time)) 秒"
 else
-  echo "speedtest-cli 未安装。正在安装..."
-  # 安装 speedtest-cli
-  if sudo apt-get update && sudo apt-get install -y speedtest-cli; then
-    echo "speedtest-cli 安装成功。正在测试网络速度，请稍候..."
-    speedtest-cli --simple
-  else
-    echo "无法安装 speedtest-cli。请手动安装："
-    echo "  sudo apt-get install speedtest-cli"
-  fi
+  echo "未安装 curl 或 wget，跳过网络速度测试。"
 fi
 
 # 其他系统详情
