@@ -14,7 +14,7 @@ rm -rf ./package/openwrt-packages/luci-app-syncthing
 rm -rf ./package/openwrt-packages/luci-app-adguardhome
 rm -rf ./package/openwrt-packages/relevance/adguardhome
 rm -rf ./package/openwrt-packages/luci-app-eqosplus
-rm -rf ./openwrt-packages/relevance/eqos-master-wiwiz
+rm -rf ./package/openwrt-packages/relevance/eqos-master-wiwiz
 
 # Merge_package
 function merge_package(){
