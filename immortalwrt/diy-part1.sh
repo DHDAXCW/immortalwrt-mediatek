@@ -26,10 +26,6 @@ function merge_package(){
     mv $2 package/openwrt-packages/
     rm -rf $repo
 }
-rm -rf packege/base-files
-pushd package
-merge_package "-b openwrt-24.10 https://github.com/openwrt/openwrt" openwrt/package/base-files
-popd
 
 # Clone community packages to package/community
 mkdir package/community
@@ -43,5 +39,4 @@ merge_package https://github.com/kenzok8/jell jell/adguardhome
 merge_package https://github.com/kenzok8/jell jell/luci-app-adguardhome
 merge_package https://github.com/kenzok8/jell jell/luci-app-serverchan
 merge_package https://github.com/DHDAXCW/lede-rockchip lede-rockchip/package/wwan
-merge_package "-b openwrt-24.10 https://github.com/openwrt/openwrt" openwrt/package/base-files
 popd
