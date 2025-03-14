@@ -1,21 +1,4 @@
 #!/bin/bash
-#
-# Add a feed source
-#echo 'src-git moruiris https://github.com/moruiris/openwrt-packages;immortalwrt' >>feeds.conf.default
-#  Luci packages
-git clone -b Immortalwrt https://github.com/shidahuilang/openwrt-package ./package/openwrt-packages
-rm -rf ./package/openwrt-packages/relevance/alist 
-rm -rf ./package/openwrt-packages/relevance/shadowsocks-libev
-rm -rf ./package/openwrt-packages/relevance/internet-detector-mod-email
-rm -rf ./package/openwrt-packages/luci-app-clouddrive2
-rm -rf ./package/openwrt-packages/luci-app-floatip
-rm -rf ./package/openwrt-packages/luci-app-nginx-pingos
-rm -rf ./package/openwrt-packages/luci-app-syncthing
-rm -rf ./package/openwrt-packages/luci-app-adguardhome
-rm -rf ./package/openwrt-packages/relevance/adguardhome
-rm -rf ./package/openwrt-packages/luci-app-eqosplus
-rm -rf ./package/openwrt-packages/relevance/eqos-master-wiwiz
-rm -rf ./package/openwrt-packages/relevance/Wiwiz-PinPinWiFi
 
 # Merge_package
 function merge_package(){
@@ -32,12 +15,8 @@ function merge_package(){
 mkdir package/community
 pushd package/community
 git clone --depth=1 https://github.com/fw876/helloworld
+
 # Add luci-theme-argon
 git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon
 git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config
-merge_package https://github.com/kenzok8/jell jell/luci-app-fan
-merge_package https://github.com/kenzok8/jell jell/adguardhome
-merge_package https://github.com/kenzok8/jell jell/luci-app-adguardhome
-merge_package https://github.com/kenzok8/jell jell/luci-app-serverchan
-merge_package https://github.com/DHDAXCW/lede-rockchip lede-rockchip/package/wwan
 popd
