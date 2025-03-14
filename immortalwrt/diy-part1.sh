@@ -16,6 +16,7 @@ mkdir package/community
 pushd package/community
 git clone --depth=1 https://github.com/fw876/helloworld
 merge_package https://github.com/DHDAXCW/lede-rockchip lede-rockchip/package/wwan/quectel_cm_5G
+merge_package https://github.com/DHDAXCW/lede-rockchip lede-rockchip/package/wwan/quectel_MHI
 popd
 
 # add luci-app-mosdns
