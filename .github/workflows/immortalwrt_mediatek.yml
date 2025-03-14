@@ -72,7 +72,6 @@ jobs:
         [ -e "$CONFIG_FILE" ] && cat "$CONFIG_FILE" > openwrt/.config
         chmod +x $OPENWRT_NAME/*.sh && cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-        $GITHUB_WORKSPACE/$OPENWRT_NAME/preset-clash-core.sh arm64
 
     - name: Download the installation package
       id: package
