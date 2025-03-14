@@ -1,8 +1,6 @@
 name: immortalwrt_mediatek_fwq
 
 on:
-  schedule:
-    - cron: 0 16 * * *
   workflow_dispatch:
 
 env:
