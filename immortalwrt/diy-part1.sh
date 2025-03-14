@@ -27,3 +27,6 @@ git clone https://github.com/sbwml/packages_lang_golang -b 23.x feeds/packages/l
 rm -rf feeds/packages/net/v2ray-geodata
 git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
 git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+
+# qmodem
+git clone https://github.com/LINGJP/modem_feeds package/modem_feeds
