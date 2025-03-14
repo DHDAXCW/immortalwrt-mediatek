@@ -15,10 +15,7 @@ function merge_package(){
 mkdir package/community
 pushd package/community
 git clone --depth=1 https://github.com/fw876/helloworld
-
-# Add luci-theme-argon
-git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon
-git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config
+merge_package https://github.com/DHDAXCW/lede-rockchip lede-rockchip/package/wwan/quectel_cm_5G
 popd
 
 # add luci-app-mosdns
