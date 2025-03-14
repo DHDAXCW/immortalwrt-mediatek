@@ -15,6 +15,7 @@ function merge_package(){
 mkdir package/community
 pushd package/community
 git clone --depth=1 https://github.com/fw876/helloworld
+merge_package https://github.com/DHDAXCW/lede-rockchip lede-rockchip/package/wwan
 popd
 
 # add luci-app-mosdns
