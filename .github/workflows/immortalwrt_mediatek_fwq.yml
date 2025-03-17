@@ -27,17 +27,17 @@ jobs:
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
          
-    - name: Load feeds.conf.default
-      run: |
-        chmod +x $OPENWRT_NAME/*.sh
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
-        
     - name: Update & install feeds
       working-directory: ./openwrt
       run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+        
+    - name: Load feeds.conf.default
+      run: |
+        chmod +x $OPENWRT_NAME/*.sh
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: Load config
       run: |
