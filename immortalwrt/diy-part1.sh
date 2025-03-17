@@ -16,6 +16,7 @@ mkdir package/community
 pushd package/community
 git clone --depth=1 https://github.com/fw876/helloworld
 merge_package https://github.com/DHDAXCW/lede-rockchip lede-rockchip/package/wwan
+git clone https://github.com/nikkinikki-org/OpenWrt-nikki
 popd
 
 # add luci-app-mosdns
