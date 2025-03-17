@@ -16,7 +16,8 @@ mkdir package/community
 pushd package/community
 git clone --depth=1 https://github.com/fw876/helloworld
 git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall2
-git clone https://github.com/nikkinikki-org/OpenWrt-nikki
+git clone --depth=1 https://github.com/nikkinikki-org/OpenWrt-nikki
+git clobe --depth=1 https://github.com/DHDAXCW/dhdaxcw-app
 popd
 
 # add luci-app-mosdns
